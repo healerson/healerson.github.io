@@ -22,30 +22,96 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="choosing is more important">
-<meta property="og:type" content="website">
+  <meta name="description" content="基于PaddlePaddle的李宏毅机器学习——迁移学习 大噶好，我是healerson，一名入门不久自学AI的AI Trainer,宝可梦训练师（纯属业余）。希望能和大家共进步，错误之处恳请指出！百度AI Studio个人主页, 我在AI Studio上获得白银等级，点亮2个徽章，来互关呀~   本项目是在飞桨深度学习学院提供的李宏毅-机器学习特训营课程。 Abstract本文共分为两大部分：第">
+<meta property="og:type" content="article">
 <meta property="og:title" content="the world of healerson">
-<meta property="og:url" content="http://example.com/index.html">
+<meta property="og:url" content="http://example.com/2021/04/22/%E6%9D%8E%E5%AE%8F%E6%AF%85%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0(Transfer%20Learning)%E6%A6%82%E8%BF%B0%E5%8F%8A%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/index.html">
 <meta property="og:site_name" content="the world of healerson">
-<meta property="og:description" content="choosing is more important">
+<meta property="og:description" content="基于PaddlePaddle的李宏毅机器学习——迁移学习 大噶好，我是healerson，一名入门不久自学AI的AI Trainer,宝可梦训练师（纯属业余）。希望能和大家共进步，错误之处恳请指出！百度AI Studio个人主页, 我在AI Studio上获得白银等级，点亮2个徽章，来互关呀~   本项目是在飞桨深度学习学院提供的李宏毅-机器学习特训营课程。 Abstract本文共分为两大部分：第">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415122437342.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415122631945.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415122751953.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415123031818.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80OTI3MjE3Mg==,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415123211214.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2021041512335336.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80OTI3MjE3Mg==,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415123842675.png#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210416100235181.gif#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415124649256.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415124708437.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415124809586.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415125108449.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415140556375.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415141052765.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415141833915.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415141414902.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/a0fb7213eb449144f30d5dc5639b2885.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415142100358.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415142139276.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/a93819091f5dd5f245495f4e342caba4.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/69eeea1f5f0fb8b61a8b05200982a564.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415142358336.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415142857386.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415142909487.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/c45384f70bd12de95861b9fdfcc724b0.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/8c577e960c5a01067c1a90109ef61dd0.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/8f4a8c8d55946784b2c7bb986017130c.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415143820728.png#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2021041514385115.png#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415144213282.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80OTI3MjE3Mg==,size_16,color_FFFFFF,t_70#pic_center">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415144533297.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415144635963.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415144820434.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/69eeea1f5f0fb8b61a8b05200982a564.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/370c88f7f57d4b7b564a36cab7aaba3b.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415145842614.jpg?ype_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80OTI3MjE3Mg==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415145854814.jpg?,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80OTI3MjE3Mg==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415145906343.jpg?type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80OTI3MjE3Mg==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415150045964.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415150045975.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415150045971.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415150045967.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415150045956.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415150045956.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415150045968.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415150045959.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415150045951.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210415150045959.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/428bdfb77336911ac1f5df797d4e4e22.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/4a378a5f4dbe078ec6161382c5d6841c.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/24f7bf78e34fd7b13b401e3db9be523e.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/ec20633f7d6764a70a9ebb672cb9fca1.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/1293fe5e2ec18495617bef612711df9d.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/abbc156df82dbd3d44fdf5f2befd49f1.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210416095102961.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80OTI3MjE3Mg==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210416095113511.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80OTI3MjE3Mg==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210416095123218.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80OTI3MjE3Mg==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/2a96b01eda15d1f79ac63fec6d2faf9b.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/305bd558dfbbb20033ac809253990c80.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/f438de59acd27a79c2da6e6f1b0f5562.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/img_convert/942116228473e0d6b4e03edfc87431b8.png">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20210416095346634.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80OTI3MjE3Mg==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/2021041609540751.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80OTI3MjE3Mg==,size_16,color_FFFFFF,t_70">
+<meta property="article:published_time" content="2021-04-22T12:53:19.179Z">
+<meta property="article:modified_time" content="2021-04-22T12:54:38.531Z">
 <meta property="article:author" content="healerson">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img-blog.csdnimg.cn/20210415122437342.png">
 
-<link rel="canonical" href="http://example.com/">
+<link rel="canonical" href="http://example.com/2021/04/22/%E6%9D%8E%E5%AE%8F%E6%AF%85%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0(Transfer%20Learning)%E6%A6%82%E8%BF%B0%E5%8F%8A%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>the world of healerson</title>
+  <title> | the world of healerson</title>
   
 
 
@@ -178,9 +244,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
+
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
@@ -196,10 +263,9 @@
       <meta itemprop="name" content="the world of healerson">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
+        <h1 class="post-title" itemprop="name headline">
           
-            <a href="/2021/04/22/%E6%9D%8E%E5%AE%8F%E6%AF%85%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0(Transfer%20Learning)%E6%A6%82%E8%BF%B0%E5%8F%8A%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/" class="post-title-link" itemprop="url">未命名</a>
-        </h2>
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -213,6 +279,13 @@
             </span>
 
           
+            <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">阅读次数：</span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
 
         </div>
       </header>
@@ -223,7 +296,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="基于PaddlePaddle的李宏毅机器学习——迁移学习"><a href="#基于PaddlePaddle的李宏毅机器学习——迁移学习" class="headerlink" title="基于PaddlePaddle的李宏毅机器学习——迁移学习"></a>基于PaddlePaddle的李宏毅机器学习——迁移学习</h1><blockquote>
+        <h1 id="基于PaddlePaddle的李宏毅机器学习——迁移学习"><a href="#基于PaddlePaddle的李宏毅机器学习——迁移学习" class="headerlink" title="基于PaddlePaddle的李宏毅机器学习——迁移学习"></a>基于PaddlePaddle的李宏毅机器学习——迁移学习</h1><blockquote>
 <p>大噶好，我是healerson，一名入门不久自学AI的AI Trainer,宝可梦训练师（纯属业余）。希望能和大家共进步，错误之处恳请指出！<br><a target="_blank" rel="noopener" href="https://aistudio.baidu.com/aistudio/personalcenter/thirdview/616597">百度AI Studio个人主页</a>, 我在AI Studio上获得白银等级，点亮2个徽章，来互关呀~</p>
 </blockquote>
 <blockquote>
@@ -586,345 +659,48 @@ Name: label, dtype: int64
 <p><a target="_blank" rel="noopener" href="https://aistudio.baidu.com/aistudio/personalcenter/thirdview/616597">百度AI Studio个人主页</a>, 我在AI Studio上获得白银等级，点亮2个徽章，来互关呀~<br>CSDN:<a target="_blank" rel="noopener" href="https://i.csdn.net/#/user-center/profile?spm=1011.2124.3001.5111">https://i.csdn.net/#/user-center/profile?spm=1011.2124.3001.5111</a><br>交流qq:3207820044</p>
 </blockquote>
 
-      
     </div>
 
     
     
     
      
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>healerson
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2021/04/22/%E6%9D%8E%E5%AE%8F%E6%AF%85%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0(Transfer%20Learning)%E6%A6%82%E8%BF%B0%E5%8F%8A%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/" title="">http://example.com/2021/04/22/李宏毅机器学习——迁移学习(Transfer Learning)概述及代码实现/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/30/json/">
+        
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="healerson">
-      <meta itemprop="description" content="choosing is more important">
-    </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="the world of healerson">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/03/30/json/" class="post-title-link" itemprop="url">JSON 库开发</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-03-30 12:05:27" itemprop="dateCreated datePublished" datetime="2021-03-30T12:05:27+08:00">2021-03-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-04-22 20:15:30" itemprop="dateModified" datetime="2021-04-22T20:15:30+08:00">2021-04-22</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>参考《JSON 库教程》<br>#JSON 库教程（一）：启程*healerson</p>
-<ul>
-<li>2021/3/20</li>
-</ul>
-<p>本文是<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/json-tutorial">《JSON 库教程》</a>的第一个单元。教程练习源代码位于 <a target="_blank" rel="noopener" href="https://github.com/miloyip/json-tutorial">json-tutorial</a>。</p>
-<p>本单元内容：</p>
-<ol>
-<li><a href="#1-json-%E6%98%AF%E4%BB%80%E4%B9%88">JSON 是什么</a></li>
-<li><a href="#2-%E6%90%AD%E5%BB%BA%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83">搭建编译环境</a></li>
-<li><a href="#3-%E5%A4%B4%E6%96%87%E4%BB%B6%E4%B8%8E-api-%E8%AE%BE%E8%AE%A1">头文件与 API 设计</a></li>
-<li><a href="#4-json-%E8%AF%AD%E6%B3%95%E5%AD%90%E9%9B%86">JSON 语法子集</a></li>
-<li><a href="#5-%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95">单元测试</a></li>
-<li><a href="#6-%E5%AE%8F%E7%9A%84%E7%BC%96%E5%86%99%E6%8A%80%E5%B7%A7">宏的编写技巧</a></li>
-<li><a href="#7-%E5%AE%9E%E7%8E%B0%E8%A7%A3%E6%9E%90%E5%99%A8">实现解析器</a></li>
-<li><a href="#8-%E5%85%B3%E4%BA%8E%E6%96%AD%E8%A8%80">关于断言</a></li>
-<li><a href="#9-%E6%80%BB%E7%BB%93%E4%B8%8E%E7%BB%83%E4%B9%A0">总结与练习</a></li>
-<li><a href="#10-%E5%B8%B8%E8%A7%81%E9%97%AE%E7%AD%94">常见问答</a></li>
-</ol>
-<h2 id="1-JSON-是什么"><a href="#1-JSON-是什么" class="headerlink" title="1. JSON 是什么"></a>1. JSON 是什么</h2><p>JSON（JavaScript Object Notation）是一个用于数据交换的文本格式，现时的标准为<a target="_blank" rel="noopener" href="https://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf">ECMA-404</a>。</p>
-<p>虽然 JSON 源至于 JavaScript 语言，但它只是一种数据格式，可用于任何编程语言。现时具类似功能的格式有 XML、YAML，当中以 JSON 的语法最为简单。</p>
-<p>例如，一个动态网页想从服务器获得数据时，服务器从数据库查找数据，然后把数据转换成 JSON 文本格式：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">&quot;title&quot;</span>: <span class="string">&quot;Design Patterns&quot;</span>,</span><br><span class="line">    <span class="string">&quot;subtitle&quot;</span>: <span class="string">&quot;Elements of Reusable Object-Oriented Software&quot;</span>,</span><br><span class="line">    <span class="string">&quot;author&quot;</span>: [</span><br><span class="line">        <span class="string">&quot;Erich Gamma&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Richard Helm&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Ralph Johnson&quot;</span>,</span><br><span class="line">        <span class="string">&quot;John Vlissides&quot;</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="string">&quot;year&quot;</span>: <span class="number">2009</span>,</span><br><span class="line">    <span class="string">&quot;weight&quot;</span>: <span class="number">1.8</span>,</span><br><span class="line">    <span class="string">&quot;hardcover&quot;</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="string">&quot;publisher&quot;</span>: &#123;</span><br><span class="line">        <span class="string">&quot;Company&quot;</span>: <span class="string">&quot;Pearson Education&quot;</span>,</span><br><span class="line">        <span class="string">&quot;Country&quot;</span>: <span class="string">&quot;India&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&quot;website&quot;</span>: <span class="literal">null</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>网页的脚本代码就可以把此 JSON 文本解析为内部的数据结构去使用。</p>
-<p>从此例子可看出，JSON 是树状结构，而 JSON 只包含 6 种数据类型：</p>
-<ul>
-<li>null: 表示为 null</li>
-<li>boolean: 表示为 true 或 false</li>
-<li>number: 一般的浮点数表示方式，在下一单元详细说明</li>
-<li>string: 表示为 “…”</li>
-<li>array: 表示为 [ … ]</li>
-<li>object: 表示为 { … }</li>
-</ul>
-<p>我们要实现的 JSON 库，主要是完成 3 个需求：</p>
-<ol>
-<li>把 JSON 文本解析为一个树状数据结构（parse）。</li>
-<li>提供接口访问该数据结构（access）。</li>
-<li>把数据结构转换成 JSON 文本（stringify）。</li>
-</ol>
-<p><img src="images/requirement.png" alt="requirement"></p>
-<p>我们会逐步实现这些需求。在本单元中，我们只实现最简单的 null 和 boolean 解析。</p>
-<h2 id="2-搭建编译环境"><a href="#2-搭建编译环境" class="headerlink" title="2. 搭建编译环境"></a>2. 搭建编译环境</h2><p>我们要做的库是跨平台、跨编译器的，同学可使用任意平台进行练习。</p>
-<p>练习源代码位于 <a target="_blank" rel="noopener" href="https://github.com/miloyip/json-tutorial">json-tutorial</a>，当中 tutorial01 为本单元的练习代码。建议同学登记为 GitHub 用户，把项目 fork 一个自己的版本，然后在上面进行修改。不了解版本管理的同学，也可以按右方「Clone or download」按钮，简单下载一个 zip 文件。</p>
-<p>我们的 JSON 库名为 leptjson，代码文件只有 3 个：</p>
-<ol>
-<li><code>leptjson.h</code>：leptjson 的头文件（header file），含有对外的类型和 API 函数声明。</li>
-<li><code>leptjson.c</code>：leptjson 的实现文件（implementation file），含有内部的类型声明和函数实现。此文件会编译成库。</li>
-<li><code>test.c</code>：我们使用测试驱动开发（test driven development, TDD）。此文件包含测试程序，需要链接 leptjson 库。</li>
-</ol>
-<p>为了方便跨平台开发，我们会使用一个现时最流行的软件配置工具 <a target="_blank" rel="noopener" href="https://cmake.org/">CMake</a>。</p>
-<p>在 Windows 下，下载安装 CMake 后，可以使用其 cmake-gui 程序：</p>
-<p><img src="images/cmake-gui.png" alt="cmake-gui"></p>
-<p>先在 “Where is the source code” 选择 json-tutorial/tutorial01，再在 “Where to build the binary” 键入上一个目录加上 /build。</p>
-<p>按 Configure，选择编译器，然后按 Generate 便会生成 Visual Studio 的 .sln 和 .vcproj 等文件。注意这个 build 目录都是生成的文件，可以随时删除，也不用上传至仓库。</p>
-<p>在 OS X 下，建议安装 <a target="_blank" rel="noopener" href="https://brew.sh/">Homebrew</a>，然后在命令行键入：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ brew install cmake</span><br><span class="line">$ cd github&#x2F;json-tutorial&#x2F;tutorial01</span><br><span class="line">$ mkdir build</span><br><span class="line">$ cd build</span><br><span class="line">$ cmake -DCMAKE_BUILD_TYPE&#x3D;Debug ..</span><br><span class="line">$ make</span><br></pre></td></tr></table></figure>
-
-<p>这样会使用 GNU make 来生成项目，把 Debug 改成 Release 就会生成 Release 配置的 makefile。</p>
-<p>若你喜欢的话，CMake 也可以生成 Xcode 项目：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cmake -G Xcode ..</span><br><span class="line">$ open leptjson_test.xcodeproj</span><br></pre></td></tr></table></figure>
-
-<p>而在 Ubuntu 下，可使用 <code>apt-get</code> 来安装：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apt-get install cmake</span><br></pre></td></tr></table></figure>
-
-<p>无论使用什么平台及编译环境，编译运行后会出现：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ .&#x2F;leptjson_test</span><br><span class="line">&#x2F;Users&#x2F;miloyip&#x2F;github&#x2F;json-tutorial&#x2F;tutorial01&#x2F;test.c:56: expect: 3 actual: 0</span><br><span class="line">11&#x2F;12 (91.67%) passed</span><br></pre></td></tr></table></figure>
-
-<p>若看到类似以上的结果，说明已成功搭建编译环境，我们可以去看看那几个代码文件的内容了。</p>
-<h2 id="3-头文件与-API-设计"><a href="#3-头文件与-API-设计" class="headerlink" title="3. 头文件与 API 设计"></a>3. 头文件与 API 设计</h2><p>C 语言有头文件的概念，需要使用 <code>#include</code>去引入头文件中的类型声明和函数声明。但由于头文件也可以 <code>#include</code> 其他头文件，为避免重复声明，通常会利用宏加入 include 防范（include guard）：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> LEPTJSON_H__</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LEPTJSON_H__</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* ... */</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span> <span class="comment">/* LEPTJSON_H__ */</span></span></span><br></pre></td></tr></table></figure>
-
-<p>宏的名字必须是唯一的，通常习惯以 <code>_H__</code> 作为后缀。由于 leptjson 只有一个头文件，可以简单命名为 <code>LEPTJSON_H__</code>。如果项目有多个文件或目录结构，可以用 <code>项目名称_目录_文件名称_H__</code> 这种命名方式。</p>
-<p>如前所述，JSON 中有 6 种数据类型，如果把 true 和 false 当作两个类型就是 7 种，我们为此声明一个枚举类型（enumeration type）：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">enum</span> &#123;</span> LEPT_NULL, LEPT_FALSE, LEPT_TRUE, LEPT_NUMBER, LEPT_STRING, LEPT_ARRAY, LEPT_OBJECT &#125; lept_type;</span><br></pre></td></tr></table></figure>
-
-<p>因为 C 语言没有 C++ 的命名空间（namespace）功能，一般会使用项目的简写作为标识符的前缀。通常枚举值用全大写（如 <code>LEPT_NULL</code>），而类型及函数则用小写（如 <code>lept_type</code>）。</p>
-<p>接下来，我们声明 JSON 的数据结构。JSON 是一个树形结构，我们最终需要实现一个树的数据结构，每个节点使用 <code>lept_value</code> 结构体表示，我们会称它为一个 JSON 值（JSON value）。<br>在此单元中，我们只需要实现 null, true 和 false 的解析，因此该结构体只需要存储一个 lept_type。之后的单元会逐步加入其他数据。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    lept_type type;</span><br><span class="line">&#125;lept_value;</span><br></pre></td></tr></table></figure>
-
-<p>C 语言的结构体是以 <code>struct X &#123;&#125;</code> 形式声明的，定义变量时也要写成 <code>struct X x;</code>。为方便使用，上面的代码使用了 <code>typedef</code>。</p>
-<p>然后，我们现在只需要两个 API 函数，一个是解析 JSON：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">lept_parse</span><span class="params">(lept_value* v, <span class="keyword">const</span> <span class="keyword">char</span>* json)</span></span>;</span><br></pre></td></tr></table></figure>
-
-<p>传入的 JSON 文本是一个 C 字符串（空结尾字符串／null-terminated string），由于我们不应该改动这个输入字符串，所以使用 <code>const char*</code> 类型。</p>
-<p>另一注意点是，传入的根节点指针 v 是由使用方负责分配的，所以一般用法是：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">lept_value v;</span><br><span class="line"><span class="keyword">const</span> <span class="keyword">char</span> json[] = ...;</span><br><span class="line"><span class="keyword">int</span> ret = lept_parse(&amp;v, json);</span><br></pre></td></tr></table></figure>
-
-<p>返回值是以下这些枚举值，无错误会返回 <code>LEPT_PARSE_OK</code>，其他值在下节解释。</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">enum</span> &#123;</span></span><br><span class="line">    LEPT_PARSE_OK = <span class="number">0</span>,</span><br><span class="line">    LEPT_PARSE_EXPECT_VALUE,</span><br><span class="line">    LEPT_PARSE_INVALID_VALUE,</span><br><span class="line">    LEPT_PARSE_ROOT_NOT_SINGULAR</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<p>现时我们只需要一个访问结果的函数，就是获取其类型：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">lept_type <span class="title">lept_get_type</span><span class="params">(<span class="keyword">const</span> lept_value* v)</span></span>;</span><br></pre></td></tr></table></figure>
-
-<h2 id="4-JSON-语法子集"><a href="#4-JSON-语法子集" class="headerlink" title="4. JSON 语法子集"></a>4. JSON 语法子集</h2><p>下面是此单元的 JSON 语法子集，使用 <a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc7159">RFC7159</a> 中的 <a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc5234">ABNF</a> 表示：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">JSON-text &#x3D; ws value ws</span><br><span class="line">ws &#x3D; *(%x20 &#x2F; %x09 &#x2F; %x0A &#x2F; %x0D)</span><br><span class="line">value &#x3D; null &#x2F; false &#x2F; true </span><br><span class="line">null  &#x3D; &quot;null&quot;</span><br><span class="line">false &#x3D; &quot;false&quot;</span><br><span class="line">true  &#x3D; &quot;true&quot;</span><br></pre></td></tr></table></figure>
-
-<p>当中 <code>%xhh</code> 表示以 16 进制表示的字符，<code>/</code> 是多选一，<code>*</code> 是零或多个，<code>()</code> 用于分组。</p>
-<p>那么第一行的意思是，JSON 文本由 3 部分组成，首先是空白（whitespace），接着是一个值，最后是空白。</p>
-<p>第二行告诉我们，所谓空白，是由零或多个空格符（space U+0020）、制表符（tab U+0009）、换行符（LF U+000A）、回车符（CR U+000D）所组成。</p>
-<p>第三行是说，我们现时的值只可以是 null、false 或 true，它们分别有对应的字面值（literal）。</p>
-<p>我们的解析器应能判断输入是否一个合法的 JSON。如果输入的 JSON 不合符这个语法，我们要产生对应的错误码，方便使用者追查问题。</p>
-<p>在这个 JSON 语法子集下，我们定义 3 种错误码：</p>
-<ul>
-<li>若一个 JSON 只含有空白，传回 <code>LEPT_PARSE_EXPECT_VALUE</code>。</li>
-<li>若一个值之后，在空白之后还有其他字符，传回 <code>LEPT_PARSE_ROOT_NOT_SINGULAR</code>。</li>
-<li>若值不是那三种字面值，传回 <code>LEPT_PARSE_INVALID_VALUE</code>。</li>
-</ul>
-<h2 id="5-单元测试"><a href="#5-单元测试" class="headerlink" title="5. 单元测试"></a>5. 单元测试</h2><p>许多同学在做练习题时，都是以 <code>printf</code>／<code>cout</code> 打印结果，再用肉眼对比结果是否乎合预期。但当软件项目越来越复杂，这个做法会越来越低效。一般我们会采用自动的测试方式，例如单元测试（unit testing）。单元测试也能确保其他人修改代码后，原来的功能维持正确（这称为回归测试／regression testing）。</p>
-<p>常用的单元测试框架有 xUnit 系列，如 C++ 的 <a target="_blank" rel="noopener" href="https://github.com/google/googletest">Google Test</a>、C# 的 <a target="_blank" rel="noopener" href="https://www.nunit.org/">NUnit</a>。我们为了简单起见，会编写一个极简单的单元测试方式。</p>
-<p>一般来说，软件开发是以周期进行的。例如，加入一个功能，再写关于该功能的单元测试。但也有另一种软件开发方法论，称为测试驱动开发（test-driven development, TDD），它的主要循环步骤是：</p>
-<ol>
-<li>加入一个测试。</li>
-<li>运行所有测试，新的测试应该会失败。</li>
-<li>编写实现代码。</li>
-<li>运行所有测试，若有测试失败回到3。</li>
-<li>重构代码。</li>
-<li>回到 1。</li>
-</ol>
-<p>TDD 是先写测试，再实现功能。好处是实现只会刚好满足测试，而不会写了一些不需要的代码，或是没有被测试的代码。</p>
-<p>但无论我们是采用 TDD，或是先实现后测试，都应尽量加入足够覆盖率的单元测试。</p>
-<p>回到 leptjson 项目，<code>test.c</code> 包含了一个极简的单元测试框架：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&quot;leptjson.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">int</span> main_ret = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">int</span> test_count = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">int</span> test_pass = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> EXPECT_EQ_BASE(equality, expect, actual, format) \</span></span><br><span class="line">    <span class="keyword">do</span> &#123;\</span><br><span class="line">        test_count++;\</span><br><span class="line">        <span class="keyword">if</span> (equality)\</span><br><span class="line">            test_pass++;\</span><br><span class="line">        <span class="keyword">else</span> &#123;\</span><br><span class="line">            <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">&quot;%s:%d: expect: &quot;</span> format <span class="string">&quot; actual: &quot;</span> format <span class="string">&quot;\n&quot;</span>, __FILE__, __LINE__, expect, actual);\</span><br><span class="line">            main_ret = <span class="number">1</span>;\</span><br><span class="line">        &#125;\</span><br><span class="line">    &#125; <span class="keyword">while</span>(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> EXPECT_EQ_INT(expect, actual) EXPECT_EQ_BASE((expect) == (actual), expect, actual, <span class="meta-string">&quot;%d&quot;</span>)</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">test_parse_null</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    lept_value v;</span><br><span class="line">    v.type = LEPT_TRUE;</span><br><span class="line">    EXPECT_EQ_INT(LEPT_PARSE_OK, lept_parse(&amp;v, <span class="string">&quot;null&quot;</span>));</span><br><span class="line">    EXPECT_EQ_INT(LEPT_NULL, lept_get_type(&amp;v));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* ... */</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">test_parse</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    test_parse_null();</span><br><span class="line">    <span class="comment">/* ... */</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    test_parse();</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d/%d (%3.2f%%) passed\n&quot;</span>, test_pass, test_count, test_pass * <span class="number">100.0</span> / test_count);</span><br><span class="line">    <span class="keyword">return</span> main_ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>现时只提供了一个 <code>EXPECT_EQ_INT(expect, actual)</code> 的宏，每次使用这个宏时，如果 expect != actual（预期值不等于实际值），便会输出错误信息。<br>若按照 TDD 的步骤，我们先写一个测试，如上面的 <code>test_parse_null()</code>，而 <code>lept_parse()</code> 只返回 <code>LEPT_PARSE_OK</code>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;Users&#x2F;miloyip&#x2F;github&#x2F;json-tutorial&#x2F;tutorial01&#x2F;test.c:27: expect: 0 actual: 1</span><br><span class="line">1&#x2F;2 (50.00%) passed</span><br></pre></td></tr></table></figure>
-
-<p>第一个返回 <code>LEPT_PARSE_OK</code>，所以是通过的。第二个测试因为 <code>lept_parse()</code> 没有把 <code>v.type</code> 改成 <code>LEPT_NULL</code>，造成失败。我们再实现 <code>lept_parse()</code> 令到它能通过测试。</p>
-<p>然而，完全按照 TDD 的步骤来开发，是会减慢开发进程。所以我个人会在这两种极端的工作方式取平衡。通常会在设计 API 后，先写部分测试代码，再写满足那些测试的实现。</p>
-<h2 id="6-宏的编写技巧"><a href="#6-宏的编写技巧" class="headerlink" title="6. 宏的编写技巧"></a>6. 宏的编写技巧</h2><p>有些同学可能不了解 <code>EXPECT_EQ_BASE</code> 宏的编写技巧，简单说明一下。反斜线代表该行未结束，会串接下一行。而如果宏里有多过一个语句（statement），就需要用 <code>do &#123; /*...*/ &#125; while(0)</code> 包裹成单个语句，否则会有如下的问题：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> M() a(); b()</span></span><br><span class="line"><span class="keyword">if</span> (cond)</span><br><span class="line">    M();</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    c();</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 预处理后 */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (cond)</span><br><span class="line">    a(); b(); <span class="comment">/* b(); 在 if 之外     */</span></span><br><span class="line"><span class="keyword">else</span>          <span class="comment">/* &lt;- else 缺乏对应 if */</span></span><br><span class="line">    c();</span><br></pre></td></tr></table></figure>
-
-<p>只用 <code>&#123; &#125;</code> 也不行：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> M() &#123; a(); b(); &#125;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 预处理后 */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (cond)</span><br><span class="line">    &#123; a(); b(); &#125;; <span class="comment">/* 最后的分号代表 if 语句结束 */</span></span><br><span class="line"><span class="keyword">else</span>               <span class="comment">/* else 缺乏对应 if */</span></span><br><span class="line">    c();</span><br></pre></td></tr></table></figure>
-
-<p>用 do while 就行了：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> M() do &#123; a(); b(); &#125; while(0)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 预处理后 */</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (cond)</span><br><span class="line">    <span class="keyword">do</span> &#123; a(); b(); &#125; <span class="keyword">while</span>(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">    c();</span><br></pre></td></tr></table></figure>
-
-<h2 id="7-实现解析器"><a href="#7-实现解析器" class="headerlink" title="7. 实现解析器"></a>7. 实现解析器</h2><p>有了 API 的设计、单元测试，终于要实现解析器了。</p>
-<p>首先为了减少解析函数之间传递多个参数，我们把这些数据都放进一个 <code>lept_context</code> 结构体：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="class"><span class="keyword">struct</span> &#123;</span></span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span>* json;</span><br><span class="line">&#125;lept_context;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* ... */</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* 提示：这里应该是 JSON-text = ws value ws */</span></span><br><span class="line"><span class="comment">/* 以下实现没处理最后的 ws 和 LEPT_PARSE_ROOT_NOT_SINGULAR */</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">lept_parse</span><span class="params">(lept_value* v, <span class="keyword">const</span> <span class="keyword">char</span>* json)</span> </span>&#123;</span><br><span class="line">    lept_context c;</span><br><span class="line">    assert(v != <span class="literal">NULL</span>);</span><br><span class="line">    c.json = json;</span><br><span class="line">    v-&gt;type = LEPT_NULL;</span><br><span class="line">    lept_parse_whitespace(&amp;c);</span><br><span class="line">    <span class="keyword">return</span> lept_parse_value(&amp;c, v);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>暂时我们只储存 json 字符串当前位置，之后的单元我们需要加入更多内容。</p>
-<p>若 <code>lept_parse()</code> 失败，会把 <code>v</code> 设为 <code>null</code> 类型，所以这里先把它设为 <code>null</code>，让 <code>lept_parse_value()</code> 写入解析出来的根值。</p>
-<p>leptjson 是一个手写的递归下降解析器（recursive descent parser）。由于 JSON 语法特别简单，我们不需要写分词器（tokenizer），只需检测下一个字符，便可以知道它是哪种类型的值，然后调用相关的分析函数。对于完整的 JSON 语法，跳过空白后，只需检测当前字符：</p>
-<ul>
-<li>n ➔ null</li>
-<li>t ➔ true</li>
-<li>f ➔ false</li>
-<li>“ ➔ string</li>
-<li>0-9/- ➔ number</li>
-<li>[ ➔ array</li>
-<li>{ ➔ object</li>
-</ul>
-<p>所以，我们可以按照 JSON 语法一节的 EBNF 简单翻译成解析函数：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">define</span> EXPECT(c, ch) do &#123; assert(*c-&gt;json == (ch)); c-&gt;json++; &#125; while(0)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* ws = *(%x20 / %x09 / %x0A / %x0D) */</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">lept_parse_whitespace</span><span class="params">(lept_context* c)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span> *p = c-&gt;json;</span><br><span class="line">    <span class="keyword">while</span> (*p == <span class="string">&#x27; &#x27;</span> || *p == <span class="string">&#x27;\t&#x27;</span> || *p == <span class="string">&#x27;\n&#x27;</span> || *p == <span class="string">&#x27;\r&#x27;</span>)</span><br><span class="line">        p++;</span><br><span class="line">    c-&gt;json = p;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* null  = &quot;null&quot; */</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">lept_parse_null</span><span class="params">(lept_context* c, lept_value* v)</span> </span>&#123;</span><br><span class="line">    EXPECT(c, <span class="string">&#x27;n&#x27;</span>);</span><br><span class="line">    <span class="keyword">if</span> (c-&gt;json[<span class="number">0</span>] != <span class="string">&#x27;u&#x27;</span> || c-&gt;json[<span class="number">1</span>] != <span class="string">&#x27;l&#x27;</span> || c-&gt;json[<span class="number">2</span>] != <span class="string">&#x27;l&#x27;</span>)</span><br><span class="line">        <span class="keyword">return</span> LEPT_PARSE_INVALID_VALUE;</span><br><span class="line">    c-&gt;json += <span class="number">3</span>;</span><br><span class="line">    v-&gt;type = LEPT_NULL;</span><br><span class="line">    <span class="keyword">return</span> LEPT_PARSE_OK;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* value = null / false / true */</span></span><br><span class="line"><span class="comment">/* 提示：下面代码没处理 false / true，将会是练习之一 */</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">lept_parse_value</span><span class="params">(lept_context* c, lept_value* v)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">switch</span> (*c-&gt;json) &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;n&#x27;</span>:  <span class="keyword">return</span> lept_parse_null(c, v);</span><br><span class="line">        <span class="keyword">case</span> <span class="string">&#x27;\0&#x27;</span>: <span class="keyword">return</span> LEPT_PARSE_EXPECT_VALUE;</span><br><span class="line">        <span class="keyword">default</span>:   <span class="keyword">return</span> LEPT_PARSE_INVALID_VALUE;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>由于 <code>lept_parse_whitespace()</code> 是不会出现错误的，返回类型为 <code>void</code>。其它的解析函数会返回错误码，传递至顶层。</p>
-<h2 id="8-关于断言"><a href="#8-关于断言" class="headerlink" title="8. 关于断言"></a>8. 关于断言</h2><p>断言（assertion）是 C 语言中常用的防御式编程方式，减少编程错误。最常用的是在函数开始的地方，检测所有参数。有时候也可以在调用函数后，检查上下文是否正确。</p>
-<p>C 语言的标准库含有 <a target="_blank" rel="noopener" href="https://en.cppreference.com/w/c/error/assert"><code>assert()</code></a> 这个宏（需 <code>#include &lt;assert.h&gt;</code>），提供断言功能。当程序以 release 配置编译时（定义了 <code>NDEBUG</code> 宏），<code>assert()</code> 不会做检测；而当在 debug 配置时（没定义 <code>NDEBUG</code> 宏），则会在运行时检测 <code>assert(cond)</code> 中的条件是否为真（非 0），断言失败会直接令程序崩溃。</p>
-<p>例如上面的 <code>lept_parse_null()</code> 开始时，当前字符应该是 <code>&#39;n&#39;</code>，所以我们使用一个宏 <code>EXPECT(c, ch)</code> 进行断言，并跳到下一字符。</p>
-<p>初使用断言的同学，可能会错误地把含<a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Side_effect_(computer_science)">副作用</a>的代码放在 <code>assert()</code> 中：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">assert(x++ == <span class="number">0</span>); <span class="comment">/* 这是错误的! */</span></span><br></pre></td></tr></table></figure>
-
-<p>这样会导致 debug 和 release 版的行为不一样。</p>
-<p>另一个问题是，初学者可能会难于分辨何时使用断言，何时处理运行时错误（如返回错误值或在 C++ 中抛出异常）。简单的答案是，如果那个错误是由于程序员错误编码所造成的（例如传入不合法的参数），那么应用断言；如果那个错误是程序员无法避免，而是由运行时的环境所造成的，就要处理运行时错误（例如开启文件失败）。</p>
-<h2 id="9-总结与练习"><a href="#9-总结与练习" class="headerlink" title="9. 总结与练习"></a>9. 总结与练习</h2><p>本文介绍了如何配置一个编程环境，单元测试的重要性，以至于一个 JSON 解析器的子集实现。如果你读到这里，还未动手，建议你快点试一下。以下是本单元的练习，很容易的，但我也会在稍后发出解答篇。</p>
-<ol>
-<li>修正关于 <code>LEPT_PARSE_ROOT_NOT_SINGULAR</code> 的单元测试，若 json 在一个值之后，空白之后还有其它字符，则要返回 <code>LEPT_PARSE_ROOT_NOT_SINGULAR</code>。</li>
-<li>参考 <code>test_parse_null()</code>，加入 <code>test_parse_true()</code>、<code>test_parse_false()</code> 单元测试。</li>
-<li>参考 <code>lept_parse_null()</code> 的实现和调用方，解析 true 和 false 值。</li>
-</ol>
-<h2 id="10-常见问答"><a href="#10-常见问答" class="headerlink" title="10. 常见问答"></a>10. 常见问答</h2><ol>
-<li><p>为什么把例子命名为 leptjson？</p>
-<p>来自于标准模型中的轻子（lepton），意为很轻量的 JSON 库。另外，建议大家为项目命名时，先 google 一下是否够独特，有很多同名的话搜寻时难以命中。</p>
-</li>
-<li><p>为什么使用宏而不用函数或内联函数？</p>
-<p>因为这个测试框架使用了 <code>__LINE__</code> 这个编译器提供的宏，代表编译时该行的行号。如果用函数或内联函数，每次的行号便都会相同。另外，内联函数是 C99 的新增功能，本教程使用 C89。</p>
-</li>
-</ol>
-<p>其他常见问答将会从评论中整理。</p>
-
-      
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/30/json/" rel="prev" title="JSON 库开发">
+      <i class="fa fa-chevron-left"></i> JSON 库开发
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
-
-    
-    
-    
-     
-      <footer class="post-footer">
-        <div class="post-eof"></div>
       </footer>
+    
   </article>
   
   
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2021/03/25/linux/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="healerson">
-      <meta itemprop="description" content="choosing is more important">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="the world of healerson">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/03/25/linux/" class="post-title-link" itemprop="url">局域网内常见服务器的搭建(一)</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2021-03-25 21:50:21" itemprop="dateCreated datePublished" datetime="2021-03-25T21:50:21+08:00">2021-03-25</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-04-22 20:50:39" itemprop="dateModified" datetime="2021-04-22T20:50:39+08:00">2021-04-22</time>
-              </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>参考鸟哥的的Linux私房菜，unix网络编程，unix环境高级编程</p>
-<h2 id="远程连接服务器"><a href="#远程连接服务器" class="headerlink" title="远程连接服务器"></a>远程连接服务器</h2><h3 id="SSH服务器"><a href="#SSH服务器" class="headerlink" title="SSH服务器"></a>SSH服务器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">文字接口连接服务器</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="http://linux.vbird.org/book/">SSH</a></p>
-<h3 id="XDMCP服务器"><a href="#XDMCP服务器" class="headerlink" title="XDMCP服务器"></a>XDMCP服务器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">最原始的图形接口</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="http://linux.vbird.org/book/">XDMCP</a></p>
-<h3 id="VNC服务器"><a href="#VNC服务器" class="headerlink" title="VNC服务器"></a>VNC服务器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">华丽的图形接口</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="http://linux.vbird.org/book/">VNC</a></p>
-<h3 id="XRDP服务器"><a href="#XRDP服务器" class="headerlink" title="XRDP服务器"></a>XRDP服务器</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">仿真的远程桌面系统</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="http://linux.vbird.org/book/">XRDP</a></p>
-
-      
-    </div>
-
-    
-    
-    
-     
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-
   
 
 
@@ -977,6 +753,7 @@ Name: label, dtype: int64
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9F%BA%E4%BA%8EPaddlePaddle%E7%9A%84%E6%9D%8E%E5%AE%8F%E6%AF%85%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E2%80%94%E2%80%94%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0"><span class="nav-number">1.</span> <span class="nav-text">基于PaddlePaddle的李宏毅机器学习——迁移学习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AC%E9%A1%B9%E7%9B%AE%E6%98%AF%E5%9C%A8%E9%A3%9E%E6%A1%A8%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%AD%A6%E9%99%A2%E6%8F%90%E4%BE%9B%E7%9A%84%E6%9D%8E%E5%AE%8F%E6%AF%85-%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%89%B9%E8%AE%AD%E8%90%A5%E8%AF%BE%E7%A8%8B%E3%80%82"><span class="nav-number">1.0.1.</span> <span class="nav-text">本项目是在飞桨深度学习学院提供的李宏毅-机器学习特训营课程。</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Abstract"><span class="nav-number">2.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E9%83%A8%E5%88%86%EF%BC%9A%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0%E4%BB%8B%E7%BB%8D"><span class="nav-number">3.</span> <span class="nav-text">第一部分：迁移学习介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0%EF%BC%9ATransfer-Learning"><span class="nav-number">3.1.</span> <span class="nav-text">1 迁移学习：Transfer Learning</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E4%BB%80%E4%B9%88%E6%98%AF%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0%E5%91%A2%EF%BC%9F"><span class="nav-number">3.2.</span> <span class="nav-text">1.1 什么是迁移学习呢？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-%E4%B8%BA%E4%BB%80%E4%B9%88%E7%94%A8%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0"><span class="nav-number">3.3.</span> <span class="nav-text">1.2 为什么用迁移学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0%E7%9A%84%E6%A6%82%E8%BF%B0"><span class="nav-number">3.4.</span> <span class="nav-text">1.3 迁移学习的概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-1-%E7%AC%AC%E4%B8%80%E7%B1%BB%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0"><span class="nav-number">3.4.1.</span> <span class="nav-text">1.3.1 第一类迁移学习</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%A8%A1%E5%9E%8B%E5%BE%AE%E8%B0%83"><span class="nav-number">3.5.</span> <span class="nav-text">1) 模型微调</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E5%A4%9A%E4%BB%BB%E5%8A%A1%E5%AD%A6%E4%B9%A0"><span class="nav-number">3.6.</span> <span class="nav-text">2) 多任务学习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-2-%E7%AC%AC%E4%BA%8C%E7%B1%BB%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0"><span class="nav-number">3.6.1.</span> <span class="nav-text">1.3.2 第二类迁移学习</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E9%A2%86%E5%9F%9F%E5%AF%B9%E6%8A%97%E6%80%A7%E8%AE%AD%E7%BB%83-Domain-Adversarial-Training"><span class="nav-number">3.7.</span> <span class="nav-text">1)领域对抗性训练(Domain Adversarial Training)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-%E9%9B%B6%E6%AC%A1%E5%AD%A6%E4%B9%A0%EF%BC%88Zero-shot-Learning%EF%BC%89"><span class="nav-number">3.8.</span> <span class="nav-text">2)零次学习（Zero-shot Learning）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-3-%E7%AC%AC%E4%B8%89%E7%B1%BB%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0"><span class="nav-number">3.8.1.</span> <span class="nav-text">1.3.3 第三类迁移学习</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E6%88%91%E5%AD%A6%E4%B9%A0"><span class="nav-number">3.9.</span> <span class="nav-text">自我学习</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-3-4-%E7%AC%AC%E5%9B%9B%E7%B1%BB%E8%BF%81%E7%A7%BB%E5%AD%A6%E4%B9%A0"><span class="nav-number">3.9.1.</span> <span class="nav-text">1.3.4 第四类迁移学习</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%AD%A6%E6%88%90%E7%B0%87"><span class="nav-number">3.10.</span> <span class="nav-text">自学成簇</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AC%AC%E4%BA%8C%E9%83%A8%E5%88%86%EF%BC%9A%E9%A2%86%E5%9F%9F%E5%AF%B9%E6%8A%97%E6%80%A7%E8%AE%AD%E7%BB%83-Domain-Adversarial-Training-%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-number">4.</span> <span class="nav-text">第二部分：领域对抗性训练(Domain Adversarial Training)代码实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2-1-%E9%A1%B9%E7%9B%AE%E6%8F%8F%E8%BF%B0"><span class="nav-number">4.1.</span> <span class="nav-text">2.1 项目描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-2-%E6%95%B0%E6%8D%AE%E9%9B%86%E4%BB%8B%E7%BB%8D"><span class="nav-number">4.2.</span> <span class="nav-text">2.2 数据集介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E8%A6%81%E6%B1%82"><span class="nav-number">4.2.1.</span> <span class="nav-text">项目要求</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%87%86%E5%A4%87"><span class="nav-number">4.2.2.</span> <span class="nav-text">数据准备</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3-%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="nav-number">5.</span> <span class="nav-text">3 代码实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3-1-%E6%95%B0%E6%8D%AE%E9%9B%86%E6%9F%A5%E7%9C%8B"><span class="nav-number">5.1.</span> <span class="nav-text">3.1 数据集查看</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-2-Special-Domain-Knowledge"><span class="nav-number">5.2.</span> <span class="nav-text">3.2 Special Domain Knowledge</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A2%84%E5%A4%84%E7%90%86source-data"><span class="nav-number">5.2.1.</span> <span class="nav-text">预处理source data</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-4-Data-Process"><span class="nav-number">5.3.</span> <span class="nav-text">3.4 Data Process</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-1-%E6%95%B0%E6%8D%AE%E9%A2%84%E5%A4%84%E7%90%86"><span class="nav-number">5.3.1.</span> <span class="nav-text">3.4.1 数据预处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-4-2-%E6%95%B0%E6%8D%AE%E5%8A%A0%E8%BD%BD%E5%99%A8%E5%AE%9A%E4%B9%89"><span class="nav-number">5.3.2.</span> <span class="nav-text">3.4.2 数据加载器定义</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-5-%E6%90%AD%E5%BB%BA%E4%B8%89%E4%B8%AA%E6%A8%A1%E5%9E%8B"><span class="nav-number">5.4.</span> <span class="nav-text">3.5 搭建三个模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-1-%E6%90%AD%E5%BB%BA%E6%A8%A1%E5%9E%8B"><span class="nav-number">5.4.1.</span> <span class="nav-text">3.5.1 搭建模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-2-%E6%A8%A1%E5%9E%8B%E9%85%8D%E7%BD%AE"><span class="nav-number">5.4.2.</span> <span class="nav-text">3.5.2 模型配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-3-%E5%BC%80%E5%A7%8B%E8%AE%AD%E7%BB%83"><span class="nav-number">5.4.3.</span> <span class="nav-text">3.5.3 开始训练</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-5-4-%E5%8F%AF%E8%A7%86%E5%8C%96%E8%AE%AD%E7%BB%83%E8%BF%87%E7%A8%8B"><span class="nav-number">5.4.4.</span> <span class="nav-text">3.5.4 可视化训练过程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#4-%E6%A8%A1%E5%9E%8B%E9%A2%84%E6%B5%8B"><span class="nav-number">6.</span> <span class="nav-text">4 模型预测</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4-1-%E9%A2%84%E6%B5%8B%E6%B5%8B%E8%AF%95%E9%9B%86%E7%BB%93%E6%9E%9C"><span class="nav-number">6.1.</span> <span class="nav-text">4.1 预测测试集结果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-2-%E5%B1%95%E7%A4%BA%E9%A2%84%E6%B5%8B%E7%BB%93%E6%9E%9C"><span class="nav-number">6.2.</span> <span class="nav-text">4.2 展示预测结果</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#5-%E6%80%BB%E7%BB%93%E5%88%86%E6%9E%90"><span class="nav-number">7.</span> <span class="nav-text">5 总结分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#6-%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE-amp-%E6%96%87%E7%AB%A0-amp-%E4%BB%A3%E7%A0%81"><span class="nav-number">8.</span> <span class="nav-text">6 参考文献&amp;文章&amp;代码</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%9C%E8%80%85%E4%BB%8B%E7%BB%8D"><span class="nav-number">9.</span> <span class="nav-text">作者介绍</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
